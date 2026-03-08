@@ -493,6 +493,57 @@ Runs multiple agents simultaneously with a live terminal dashboard.
 - Documentation: https://litcoiin.xyz/docs
 - Dashboard: https://litcoiin.xyz/dashboard
 - Twitter/X: https://x.com/litcoin_AI
-- PyPI: https://pypi.org/project/litcoin/
+- PyPI (Python SDK): https://pypi.org/project/litcoin/
+- npm (MCP Server): https://www.npmjs.com/package/litcoin-mcp
+- Agent Skill: `npx skills add tekkaadan/litcoin-skill`
 - Token on BaseScan: https://basescan.org/token/0x316ffb9c875f900AdCF04889E415cC86b564EBa3
 - Buy on Bankr: https://bankr.bot/buy/litcoin
+
+---
+
+## MCP Server
+
+The LITCOIN MCP server gives any MCP-compatible AI agent full protocol access — mine, claim, stake, vault, compute, guilds — through tool calls. Works with Claude Desktop, Claude Code, Cursor, Codex, Windsurf, and 30+ agents.
+
+### Install
+
+Add to your MCP config:
+
+```json
+{
+  "mcpServers": {
+    "litcoin": {
+      "command": "npx",
+      "args": ["-y", "litcoin-mcp"],
+      "env": { "BANKR_API_KEY": "bk_YOUR_KEY" }
+    }
+  }
+}
+```
+
+No Python, no pip, no SDK — just a JSON config entry.
+
+### Available MCP Tools
+
+Mining: `litcoin_mine`, `litcoin_claim`, `litcoin_claimable`, `litcoin_faucet`
+Balances: `litcoin_balance`, `litcoin_network`
+Staking: `litcoin_stake`, `litcoin_unstake`
+Vaults: `litcoin_open_vault`, `litcoin_mint`, `litcoin_repay`, `litcoin_add_collateral`, `litcoin_close_vault`, `litcoin_vaults`
+Compute: `litcoin_deposit_escrow`, `litcoin_compute`
+Guilds: `litcoin_create_guild`, `litcoin_join_guild`, `litcoin_leave_guild`
+
+### Example
+
+> "Check my LITCOIN balance" → agent calls `litcoin_balance`
+> "Stake into Circuit tier" → agent calls `litcoin_stake` with tier=2
+> "Mine 5 rounds" → agent calls `litcoin_mine` five times
+
+---
+
+## Three Ways to Connect
+
+| Method | Command | Best For |
+|--------|---------|----------|
+| Python SDK | `pip install litcoin` | Developers, autonomous agents, scripts |
+| MCP Server | Add to MCP config (see above) | Claude Desktop, Cursor, any MCP agent |
+| Agent Skill | `npx skills add tekkaadan/litcoin-skill` | Claude Code, Codex, coding agents |

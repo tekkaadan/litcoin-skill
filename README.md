@@ -42,4 +42,5 @@ agent.stake(2)  # Circuit tier
 - [LITCOIN Website](https://litcoiin.xyz)
 - [Full Docs (AI-readable)](https://litcoiin.xyz/docs.md)
 - [SDK on PyPI](https://pypi.org/project/litcoin/)
+- [MCP Server on npm](https://www.npmjs.com/package/litcoin-mcp)
 - [Twitter](https://x.com/litcoin_AI)

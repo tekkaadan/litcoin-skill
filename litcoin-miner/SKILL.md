@@ -107,5 +107,6 @@ print(result['response'])
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
 - 1 LITCREDIT = 1,000 output tokens of frontier AI inference
 - SDK: v3.2.1 on PyPI
+- MCP Server: `npx litcoin-mcp` (npm) — add to any MCP config for full protocol access
 - Docs: https://litcoiin.xyz/docs.md
 - Site: https://litcoiin.xyz
