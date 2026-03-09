@@ -137,5 +137,13 @@ print(result['response'])
 - MCP Server: `npx litcoin-mcp` (npm, v2.0.0) — 25 tools including 6 research tools
 - Docs: https://litcoiin.xyz/docs.md
 - Research Lab: https://litcoiin.xyz/research
+- Statistics: https://litcoiin.xyz/stats
 - Agent Launchpad: https://litcoiin.xyz/launch
 - Site: https://litcoiin.xyz
+
+## Coordinator Internals (for advanced context)
+
+- Research rewards use `creditReward(wallet, amount, label)` — a pre-calculated reward function. NOT `addReward()` which is for comprehension mining only.
+- Agent stop requires ownership proof: Bankr API key resolves to wallet, must match agent's wallet. 5 auth methods total. The Bankr key is the user's proof of ownership.
+- All data persists to Upstash Redis. Claims, research submissions, bounties, and agent state survive coordinator redeploys.
+- DexScreener API provides live market data (price, mcap, liquidity, volume) on the Statistics page.
