@@ -1,12 +1,19 @@
 ---
 name: litcoin-miner
 description: "Mine LITCOIN — a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT (compute-pegged stablecoin), manage mining guilds, run autonomous research experiments, deploy agents, or interact with the LITCOIN DeFi protocol. Also use when the user asks about proof-of-comprehension mining, proof-of-research, AI agent DeFi, or compute-pegged stablecoins."
+license: MIT-0
+compatibility: "Requires Python 3.9+, pip, and network access to api.litcoiin.xyz. Optional: websocket-client for relay mining."
 homepage: "https://litcoiin.xyz"
 metadata:
+  author: tekkaadan
+  version: "1.1.0"
   clawdbot:
     requires:
       env: ["BANKR_API_KEY"]
       primaryEnv: "BANKR_API_KEY"
+  hermes:
+    tags: [crypto, mining, defi, ai-agent, base, research]
+    category: crypto
 ---
 
 # LITCOIN Miner Skill
@@ -58,6 +65,51 @@ Research mining requires `ai_key` — the LLM generates experiment code, tests l
 
 The user needs a Bankr API key from https://bankr.bot/api and some ETH on Base for gas. New wallets with zero balance can use the faucet: `agent.faucet()` gives 5M LITCOIN free (one-time).
 
+## Use LITCOIN as Your LLM Provider (Hermes Agent Compatible)
+
+LITCOIN's relay network works as a drop-in OpenAI replacement. Relay miners serve inference using their own API keys — you pay with LITCREDIT, they earn LITCOIN.
+
+**For Hermes Agent users** — set LITCOIN as your custom endpoint:
+
+```bash
+# In ~/.hermes/.env
+OPENAI_BASE_URL=https://api.litcoiin.xyz/v1
+OPENAI_API_KEY=lk_YOUR_KEY
+```
+
+Or with `hermes config`:
+```bash
+hermes config set OPENAI_BASE_URL https://api.litcoiin.xyz/v1
+hermes config set OPENAI_API_KEY lk_YOUR_KEY
+```
+
+**For any OpenAI-compatible client** (LangChain, LiteLLM, Cursor, OpenClaw):
+- Base URL: `https://api.litcoiin.xyz/v1`
+- Auth: API key (`lk_`), `X-Wallet` header + LITCREDIT balance, or free tier (5 req/hr)
+- Endpoints: `POST /v1/chat/completions`, `GET /v1/models`
+- Streaming, tools, multi-turn all supported
+- Target specific relays with `"provider": "0xabc..."` in request body
+
+## Autonomous Mining with Cron (Hermes Agent)
+
+If running inside Hermes Agent, you can set up autonomous mining on a schedule:
+
+```
+# Tell Hermes to mine every 2 hours:
+/cron add "0 */2 * * *" "Run 10 rounds of LITCOIN comprehension mining, then 5 research iterations on the best available task. Claim if claimable > 100K."
+```
+
+Or manually via the SDK in a cron job:
+```python
+from litcoin import Agent
+agent = Agent(bankr_key="bk_...", ai_key="sk-...")
+agent.mine(rounds=10)
+agent.research_loop(rounds=5, delay=30)
+status = agent.status()
+if status.get("claimable", 0) > 100000:
+    agent.claim()
+```
+
 ## What This Skill Covers
 
 When the user asks to mine LITCOIN, walk them through setup:
@@ -105,14 +157,6 @@ Task types: code_optimization, algorithm, ml_training, prompt_engineering, data_
 - `agent.deposit_escrow(amount)` — Deposit LITCREDIT for AI compute
 - `agent.compute(prompt)` — Use AI inference via relay network
 
-### Use as AI Provider (OpenAI-Compatible)
-LITCOIN relays work as a drop-in OpenAI replacement. Base URL: `https://api.litcoiin.xyz/v1`
-- `POST /v1/chat/completions` — Standard chat format (streaming, tools, multi-turn)
-- `GET /v1/models` — Available models from online relays
-- Auth: API key (`lk_`), wallet + LITCREDIT, or free tier (5 req/hr)
-- Provider selection: pass `"provider": "0xabc..."` to target a specific relay
-- Works with OpenClaw, LangChain, LiteLLM, Cursor, OpenAI Python SDK
-
 ### Mining Guilds
 - `agent.create_guild(name)` — Create a guild
 - `agent.join_guild(guild_id, amount)` — Join with deposit
@@ -142,6 +186,15 @@ result = agent.compute("Explain proof of research")
 print(result['response'])
 ```
 
+## Three Ways to Connect
+
+| Method | Command | Best For |
+|--------|---------|----------|
+| Python SDK | `pip install litcoin` | Developers, autonomous agents, scripts |
+| MCP Server | `npx litcoin-mcp` (25 tools) | Claude Desktop, Cursor, any MCP agent |
+| Agent Skill | ClawHub or GitHub | Hermes Agent, OpenClaw, coding agents |
+| OpenAI API | `base_url=https://api.litcoiin.xyz/v1` | Any OpenAI-compatible client |
+
 ## Key Info
 
 - Chain: Base mainnet (8453)
@@ -149,15 +202,15 @@ print(result['response'])
 - 1 LITCREDIT = 1,000 output tokens of frontier AI inference
 - SDK: v4.0.1 on PyPI
 - MCP Server: `npx litcoin-mcp` (npm, v2.0.0) — 25 tools including 6 research tools
-- Docs: https://litcoiin.xyz/docs.md
+- Docs: https://litcoiin.xyz/docs
 - Research Lab: https://litcoiin.xyz/research
 - Statistics: https://litcoiin.xyz/stats
-- Agent Launchpad: https://litcoiin.xyz/launch
 - Site: https://litcoiin.xyz
 
 ## Coordinator Internals (for advanced context)
 
 - Research rewards use `creditReward(wallet, amount, label)` — a pre-calculated reward function. NOT `addReward()` which is for comprehension mining only.
-- Agent stop requires ownership proof: Bankr API key resolves to wallet, must match agent's wallet. 5 auth methods total. The Bankr key is the user's proof of ownership.
+- Agent stop requires ownership proof: Bankr API key resolves to wallet, must match agent's wallet. 5 auth methods total.
 - All data persists to Upstash Redis. Claims, research submissions, bounties, and agent state survive coordinator redeploys.
-- DexScreener API provides live market data (price, mcap, liquidity, volume) on the Statistics page.
+- Emission: 1% of treasury/day. Pool split: 65% research, 10% comprehension, 25% staking. Pools are independent.
+- Research uses pool-share reward model (pool / totalDailySubmissions), capped at 3x comprehension rate.
