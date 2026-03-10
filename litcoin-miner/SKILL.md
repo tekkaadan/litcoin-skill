@@ -1,6 +1,12 @@
 ---
 name: litcoin-miner
 description: "Mine LITCOIN — a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT (compute-pegged stablecoin), manage mining guilds, run autonomous research experiments, deploy agents, or interact with the LITCOIN DeFi protocol. Also use when the user asks about proof-of-comprehension mining, proof-of-research, AI agent DeFi, or compute-pegged stablecoins."
+homepage: "https://litcoiin.xyz"
+metadata:
+  clawdbot:
+    requires:
+      env: ["BANKR_API_KEY"]
+      primaryEnv: "BANKR_API_KEY"
 ---
 
 # LITCOIN Miner Skill
