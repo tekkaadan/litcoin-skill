@@ -212,5 +212,5 @@ print(result['response'])
 - Research rewards use `creditReward(wallet, amount, label)` — a pre-calculated reward function. NOT `addReward()` which is for comprehension mining only.
 - Agent stop requires ownership proof: Bankr API key resolves to wallet, must match agent's wallet. 5 auth methods total.
 - All data persists to Upstash Redis. Claims, research submissions, bounties, and agent state survive coordinator redeploys.
-- Emission: 1% of treasury/day. Pool split: 65% research, 10% comprehension, 25% staking. Pools are independent.
+- Emission: 1.5% of treasury/day. Pool split: 65% research, 10% comprehension, 25% staking. Pools are independent.
 - Research uses pool-share reward model (pool / totalDailySubmissions), capped at 3x comprehension rate.

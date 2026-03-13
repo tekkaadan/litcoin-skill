@@ -102,7 +102,7 @@ Task types: code_optimization, algorithm, ml_training, bioinformatics, math, NLP
 
 ## Emission & Reward System
 
-- Daily emission: 1% of treasury balance (capped at 50M LITCOIN/day, floored at 100K)
+- Daily emission: 1.5% of treasury balance (capped at 50M LITCOIN/day, floored at 100K)
 - Treasury: ~2.07B LITCOIN (diminishing — half-life ~69 days)
 
 ### Pool Split (65/10/25/0)
@@ -529,7 +529,7 @@ Runs multiple agents simultaneously with a live terminal dashboard.
 - Total supply: 100,000,000,000 (100B) LITCOIN
 - Decimals: 18
 - Initial distribution: Treasury holds tokens for mining rewards
-- Emission: 1% of treasury per day (half-life ~69 days, capped at 50M/day)
+- Emission: 1.5% of treasury per day (half-life ~46 days, capped at 50M/day)
 - Pool split: 65% research, 10% comprehension, 25% staking
 - Burns: LITCREDIT burned on compute usage, minting fees
 - No team allocation, no VC allocation — 100% to mining treasury
