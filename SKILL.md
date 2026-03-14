@@ -218,9 +218,8 @@ print(result['response'])
 - Agent stop requires ownership proof: Bankr API key resolves to wallet, must match agent's wallet. 5 auth methods total.
 - All data persists to Upstash Redis. Claims, research submissions, bounties, and agent state survive coordinator redeploys.
 - Emission: 1.5% of treasury/day. Pool split: 65% research, 10% comprehension, 25% staking. Pools are independent.
-- Research uses block-based verification: 5-min blocks, pipelined (N+1 collects while N verifies), 3 concurrent sandboxes, no participation rewards.
-- Research submissions return 202 (accepted). Poll `/v1/research/submission-status/:id` for result. SDK timeout: 600s.
+- Research uses block-based verification: 5-min blocks, pipelined, 3 concurrent sandboxes, no participation rewards.
+- Research submissions return 202. Poll `/v1/research/submission-status/:id`. SDK timeout: 600s.
 - Guild staking uses V3 keyed positions: `stakeKeyed(guildId, tier, amount)`. Multiple guilds stake independently.
-- Guild yield: coordinator detects guild keyed positions, splits staking yield to members proportionally by deposit share every 30 min.
-- Boost logic: `max(personalBoost, guildBoost)` — takes the higher, not personal-first.
+- Guild yield distributed every 30 min to members proportionally. Boost: `max(personalBoost, guildBoost)`.
 - Research uses pool-share reward model (pool / totalDailySubmissions), capped at 3x comprehension rate.

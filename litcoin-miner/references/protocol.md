@@ -124,7 +124,7 @@ If the comprehension pool has zero solves for 4 consecutive hours, 25% of its re
 
 When you provide an AI API key, your miner automatically becomes a relay provider on the compute marketplace. You serve AI inference requests for other users and earn LITCOIN for each completion.
 
-- Relay starts automatically in SDK v4.0.1+ when `ai_key` is set
+- Relay starts automatically in SDK v4.3.0+ when `ai_key` is set
 - Uses the same API key you already have — no extra cost
 - Relay reward: 2x weight per solve from the comprehension pool
 - Quality scoring: starts at 1.0, degrades on failures, higher quality = more requests routed to you
@@ -190,11 +190,18 @@ Staking UI: https://litcoiin.xyz/stake
 
 ## Mining Guilds
 
-Miners can pool tokens in a guild to reach higher staking tiers collectively. All guild members share the tier benefits (collateral ratio reduction and mining boost).
+Miners can pool tokens in a guild to reach higher staking tiers collectively. All guild members share the tier benefits (collateral ratio reduction, mining boost, and passive yield).
 
 Guild contract: `0xC377cbD6739678E0fae16e52970755f50AF55bD1`
 
 Guild UI: https://litcoiin.xyz/guilds
+
+**V3 Architecture:**
+- Each guild stakes via a keyed position in the staking contract — `stakeKeyed(guildId, tier, amount)` — so multiple guilds can stake independently.
+- Deposits go to a liquid **buffer** (withdrawable anytime). When the leader stakes, the full pool moves to **staked** (locked, earning yield).
+- New deposits after staking go to buffer. Leader can **syncStake** to push buffer into staking. Members can **withdrawBuffer** anytime.
+- Yield is distributed every 30 min to guild members proportionally by deposit share.
+- Coordinator applies `max(personalBoost, guildBoost)` on every solve.
 
 ---
 
@@ -348,7 +355,7 @@ All DeFi contracts use UUPS upgradeable proxies. All verified on BaseScan.
 
 ---
 
-## SDK Reference (v4.0.1)
+## SDK Reference (v4.3.0)
 
 ```bash
 pip install litcoin
@@ -529,7 +536,7 @@ Runs multiple agents simultaneously with a live terminal dashboard.
 - Total supply: 100,000,000,000 (100B) LITCOIN
 - Decimals: 18
 - Initial distribution: Treasury holds tokens for mining rewards
-- Emission: 1.5% of treasury per day (half-life ~46 days, capped at 50M/day)
+- Emission: 1.5% of treasury per day (capped at 50M/day)
 - Pool split: 65% research, 10% comprehension, 25% staking
 - Burns: LITCREDIT burned on compute usage, minting fees
 - No team allocation, no VC allocation — 100% to mining treasury
