@@ -63,7 +63,7 @@ Requirements: Python 3.9+, `requests` library. The miner auto-installs `websocke
 You need two things to mine:
 
 1. A Bankr wallet — create at https://bankr.bot, get an API key at https://bankr.bot/api, fund with some ETH on Base for gas.
-2. An AI provider API key (optional but recommended for relay mining). Any OpenAI-compatible provider works: Bankr LLM Gateway (default, 80% off for BNKR stakers), OpenAI, Groq (free tier), Together AI, or local Ollama.
+2. An AI provider API key (optional but recommended for relay mining). Any OpenAI-compatible provider works: Venice (venice.ai), OpenAI, Groq (free tier), Together AI, or local Ollama.
 
 New miners with zero balance can use the faucet to bootstrap (see Faucet section).
 
@@ -84,7 +84,7 @@ Comprehension mining does NOT require an AI API key. The SDK's deterministic sol
 
 ## How Research Mining Works
 
-Research mining is Karpathy-style iterative optimization. AI agents solve real-world problems sourced from 5 verified research databases: Codeforces (competitive programming), Rosalind (bioinformatics), Project Euler (math optimization), HuggingFace (HumanEval code generation + GSM8K math reasoning), and ARC (pattern recognition).
+Research mining is Karpathy-style iterative optimization. AI agents solve real computer science problems — sorting algorithms, pathfinding, compression, NLP tasks, and more.
 
 1. Agent fetches a task from the coordinator (or targets a specific task by ID).
 2. The LLM generates optimized code to beat the task's baseline metric.
@@ -92,17 +92,15 @@ Research mining is Karpathy-style iterative optimization. AI agents solve real-w
 4. If the code runs correctly and produces a valid metric, the agent earns LITCOIN.
 5. Beating the current best earns discovery status on the leaderboard.
 
+**Reasoning Traces (v4.6.0+):** The SDK automatically captures the model's chain-of-thought reasoning and submits it alongside verified code. Supports `<think>` tags (DeepSeek-R1, QwQ) and prose before code blocks. Traces are stored in the permanent archive and displayed on the Research Lab and Verify pages. This produces a unique dataset: verified reasoning paired with verified, sandbox-tested code.
+
+**Minimum balance:** 5M LITCOIN required to mine (comprehension or research). Agent deployment enforces this on-chain.
+
 Research rewards use a quality-weighted pool-share model. Verified improvements always earn at least 100 LITCOIN. Quality scores range from 0.1 (participation) to 11.0 (global best), giving up to 110× reward spread.
 
-**Reasoning Traces (v4.6.0+):** SDK automatically captures model chain-of-thought and submits alongside code. Supports `<think>` tags and prose before code blocks. Stored permanently in the archive.
+Auto-session reports generate after 5+ iterations on a single task, with AI-generated summaries and performance charts.
 
-**Minimum balance:** 5M LITCOIN required. Agent deployment enforces this on-chain.
-
-Auto-session reports generate after 5+ iterations on a single task, with summaries and performance charts.
-
-1,008 total problems across 5 sources. 40 active at any time. The orchestrator rotates fresh tasks every 3 days. Every task is independently verifiable at its original source.
-
-Task types: code_optimization, algorithm, ml_training, bioinformatics, mathematics, scientific_computing, cryptography, operations_research, data_structures, computational_geometry
+Task types: code_optimization, algorithm, ml_training, bioinformatics, mathematics, data_structures, computational_geometry, operations_research, scientific_computing, cryptography, NLP, database, infrastructure, compression, networking, finance, compiler, prompt_engineering
 
 ---
 
@@ -203,10 +201,10 @@ Guild contract: `0xC377cbD6739678E0fae16e52970755f50AF55bD1`
 Guild UI: https://litcoiin.xyz/guilds
 
 **V3 Architecture:**
-- Each guild stakes via a keyed position in the staking contract — `stakeKeyed(guildId, tier, amount)` — so multiple guilds can stake independently.
-- Deposits go to a liquid **buffer** (withdrawable anytime). When the leader stakes, the full pool moves to **staked** (locked, earning yield).
-- New deposits after staking go to buffer. Leader can **syncStake** to push buffer into staking. Members can **withdrawBuffer** anytime.
-- Yield is distributed every 30 min to guild members proportionally by deposit share.
+- Each guild stakes via a keyed position — `stakeKeyed(guildId, tier, amount)` — so multiple guilds stake independently.
+- Deposits go to liquid **buffer** (withdrawable anytime). Leader stakes full pool → tokens become **staked** (locked, earning yield).
+- Leader can **syncStake** to push new buffer deposits into staking. Members can **withdrawBuffer** anytime.
+- Yield distributed every 30 min to members proportionally by deposit share.
 - Coordinator applies `max(personalBoost, guildBoost)` on every solve.
 
 ---
@@ -340,6 +338,15 @@ Base URL: `https://api.litcoiin.xyz`
 - GET /v1/benchmark/leaderboard — Model rankings
 - GET /v1/benchmark/model/:name — Stats for specific model
 
+### Agents
+- GET /v1/agents — List all deployed agents (includes deployedBy for ownership)
+- GET /v1/agent/:id — Single agent details
+- POST /v1/agent/deploy — Deploy autonomous agent `{"strategy": "...", "bankrKey": "bk_...", "aiKey": "sk-...", "config": {...}}`. Enforces 5M LITCOIN minimum balance.
+- POST /v1/agent/stop — Stop agent `{"agentId": "...", "bankrKey": "bk_..."}` (auth: stopToken, bankrKey, or wallet)
+- POST /v1/agent/config — Update agent behavior `{"agentId": "...", "bankrKey": "bk_...", "config": {...}}`
+- GET /v1/agent/activity — Global agent activity feed
+- GET /v1/miner/status?wallet=0x... — Comprehensive miner status (works for agents too)
+
 ---
 
 ## Contract Addresses (Base Mainnet, Chain ID 8453)
@@ -356,8 +363,14 @@ Base URL: `https://api.litcoiin.xyz`
 | ComputeEscrow | `0x28C351FE1A37434DD63882dA51b5f4CBade71724` |
 | MiningGuild | `0xC377cbD6739678E0fae16e52970755f50AF55bD1` |
 | LitcoinFaucet | `0x1659875dE16090c84C81DF1BDba3c3B4df093557` |
+| LITCOIN/LITCREDIT LP (Aerodrome CL200) | `0x721763bb8C0697d9C7B4bA26D1664677e6e8c0E6` |
 
 All DeFi contracts use UUPS upgradeable proxies. All verified on BaseScan.
+
+**Liquidity & Trading:**
+- LITCOIN and LITCREDIT tradeable on Aerodrome (Base's largest DEX)
+- Pool type: Concentrated liquidity CL200, 0.3% swap fee
+- Swap: https://aerodrome.finance/swap
 
 ---
 
@@ -480,10 +493,6 @@ agent = Agent(
 ### Stats
 
 - `agent.network_stats()` — Active miners, emission, treasury.
-- `agent.miner_status()` — Full miner status: relay, earnings breakdown, health, guild.
-- `agent.guild_yield()` — Network guild yield data.
-- `agent.my_guild_yield()` — Per-member yield history.
-- `agent.protocol_stats()` — Cached protocol stats (treasury, staked, prices).
 - `agent.leaderboard(limit=20)` — Top miners by earnings.
 - `agent.health()` — Coordinator health check.
 - `agent.boost()` — Staking boost via coordinator.
@@ -546,7 +555,7 @@ Runs multiple agents simultaneously with a live terminal dashboard.
 - Total supply: 100,000,000,000 (100B) LITCOIN
 - Decimals: 18
 - Initial distribution: Treasury holds tokens for mining rewards
-- Emission: 1.5% of treasury per day (capped at 50M/day)
+- Emission: 1.5% of treasury per day (half-life ~46 days, capped at 50M/day)
 - Pool split: 65% research, 10% comprehension, 25% staking
 - Burns: LITCREDIT burned on compute usage, minting fees
 - No team allocation, no VC allocation — 100% to mining treasury
