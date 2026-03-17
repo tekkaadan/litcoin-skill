@@ -374,6 +374,28 @@ All DeFi contracts use UUPS upgradeable proxies. All verified on BaseScan.
 
 ---
 
+## Bankr DeFi API (POST, bankrKey in body)
+
+All endpoints accept `{ "bankrKey": "bk_..." }` in the request body. Rate limited to 1 operation per wallet per 30 seconds. Every transaction waits for on-chain confirmation before responding.
+
+| Endpoint | Purpose | Extra params |
+|----------|---------|-------------|
+| /v1/bankr/balance | All positions (balance, tier, lock, vaults, guild) | — |
+| /v1/bankr/stake | Stake at tier 1-4 (handles unstake+restake) | `tier` |
+| /v1/bankr/unstake | Normal unstake after lock expires | — |
+| /v1/bankr/early-unstake | Preview or execute early unstake with penalty | `confirm` (bool) |
+| /v1/bankr/vault/open | Open new vault with LITCOIN collateral | `amount` |
+| /v1/bankr/vault/add-collateral | Add LITCOIN to existing vault | `vaultId`, `amount` |
+| /v1/bankr/vault/mint | Mint LITCREDIT against vault | `vaultId`, `amount` |
+| /v1/bankr/vault/repay | Repay vault debt | `vaultId`, optional `amount` |
+| /v1/bankr/vault/close | Repay debt + close vault (auto-retry) | `vaultId` |
+| /v1/bankr/vault/details | Per-vault collateral, debt, ratio, maxMintable | — |
+| /v1/bankr/guild/join | Join guild with deposit | `guildId`, `amount` |
+| /v1/bankr/guild/leave | Leave guild (checks lock status) | — |
+| /v1/bankr/guild/unstake | Leader unstakes guild | `guildId` |
+
+---
+
 ## SDK Reference (v4.6.0)
 
 ```bash
