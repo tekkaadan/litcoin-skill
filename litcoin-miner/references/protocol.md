@@ -342,8 +342,13 @@ Base URL: `https://api.litcoiin.xyz`
 - GET /v1/agents — List all deployed agents (includes deployedBy for ownership)
 - GET /v1/agent/:id — Single agent details
 - POST /v1/agent/deploy — Deploy autonomous agent `{"strategy": "...", "bankrKey": "bk_...", "aiKey": "sk-...", "config": {...}}`. Enforces 5M LITCOIN minimum balance.
-- POST /v1/agent/stop — Stop agent `{"agentId": "...", "bankrKey": "bk_..."}` (auth: stopToken, bankrKey, or wallet)
+- POST /v1/agent/stop — Stop agent `{"agentId": "...", "bankrKey": "bk_..."}`
 - POST /v1/agent/config — Update agent behavior `{"agentId": "...", "bankrKey": "bk_...", "config": {...}}`
+
+Agent config fields:
+- Boolean toggles: `mine`, `research`, `autoClaim`, `autoStake`, `openVaults`, `mintLitcredit`, `autoDefend`, `depositEscrow`, `compound`
+- `targetTier`: null (strategy default) or 1-4
+- `maxBudget`: null (unlimited) or number — max LITCOIN deployed across staking + vaults. Agent checks before every stake, vault, defend, and compound operation.
 - GET /v1/agent/activity — Global agent activity feed
 - GET /v1/miner/status?wallet=0x... — Comprehensive miner status (works for agents too)
 
