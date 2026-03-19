@@ -59,9 +59,9 @@ Requires an AI API key. The LLM generates experiment code, the SDK tests it loca
 ```python
 agent = Agent(
     bankr_key="bk_YOUR_KEY",
-    ai_key="sk-YOUR_KEY",           # Venice, OpenAI, Groq, or use Bankr LLM (see below)
-    ai_url="https://api.venice.ai/api/v1",
-    model="llama-3.3-70b",
+    ai_key="sk-or-v1-YOUR_KEY",    # OpenRouter recommended. Or use Bankr LLM (see below)
+    ai_url="https://openrouter.ai/api/v1",
+    model="google/gemini-2.5-flash",
 )
 
 # Single research cycle
@@ -70,7 +70,7 @@ result = agent.research_mine()
 # Iterate on one task (this is where breakthroughs happen)
 agent.research_loop(task_id="sort-benchmark-001", rounds=50, delay=30)
 
-# List available tasks (19 types across 16 categories)
+# List available tasks (20 tasks across algorithm, mathematics, bioinformatics)
 tasks = agent.research_tasks()
 ```
 
