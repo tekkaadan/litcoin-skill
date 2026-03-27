@@ -63,7 +63,7 @@ Requirements: Python 3.9+, `requests` library. The miner auto-installs `websocke
 You need two things to mine:
 
 1. A Bankr wallet — create at https://bankr.bot, get an API key at https://bankr.bot/api, fund with some ETH on Base for gas.
-2. An AI provider API key (optional but recommended for relay mining). Any OpenAI-compatible provider works: Venice (venice.ai), OpenAI, Groq (free tier), Together AI, or local Ollama.
+2. An AI provider: local Ollama (zero API cost, self-hosted), Bankr LLM (low-cost credits), Groq (free tier), OpenRouter, or any OpenAI-compatible provider. Local models recommended for relay mining.
 
 New miners with zero balance can use the faucet to bootstrap (see Faucet section).
 
@@ -186,7 +186,7 @@ Faucet contract: `0x1659875dE16090c84C81DF1BDba3c3B4df093557`
 | 3 | Core | 50,000,000 | 90 days | 175% | 1.50x |
 | 4 | Architect | 500,000,000 | 180 days | 150% | 2.00x |
 
-Unstaked users need 250% collateral ratio for vaults.
+Unstaked users need 250% collateral ratio for LITCOIN vaults. USDC vaults are always 105% regardless of tier.
 
 Staking UI: https://litcoiin.xyz/stake
 
@@ -225,14 +225,15 @@ LITCREDIT token: `0x33e3d328F62037EB0d173705674CE713c348f0a6`
 
 ## Vaults
 
-MakerDAO-style collateralized debt positions (CDPs). Deposit LITCOIN as collateral, mint LITCREDIT against it.
+MakerDAO-style collateralized debt positions (CDPs). Deposit LITCOIN or USDC as collateral, mint LITCREDIT against it.
 
-- Minimum collateral ratio: 150% (Architect tier) to 250% (unstaked)
-- Minting fee: 0.5%
+- LITCOIN vaults: tier-based ratio (150% Architect to 250% unstaked), 0.5% minting fee
+- USDC vaults: fixed 105% ratio, 0.25% minting fee, 500K LITCREDIT debt ceiling
+- TAO vaults: planned (200% ratio, awaiting Base bridge)
 - Liquidation threshold: 110% collateral ratio
 - Liquidation penalty applies
 
-Vault operations: open vault → deposit LITCOIN → mint LITCREDIT → use LITCREDIT for compute → repay debt → withdraw collateral → close vault.
+Vault operations: open vault (LITCOIN or USDC) → deposit collateral → mint LITCREDIT → use LITCREDIT for compute → repay debt → withdraw collateral → close vault.
 
 Vault UI: https://litcoiin.xyz/vaults
 
@@ -244,7 +245,7 @@ VaultManager contract: `0xD23a9b32e38FABE2325e1d27f94EcCf0e4a2f058`
 
 Spend LITCREDIT on AI inference served by relay miners. No API subscription needed.
 
-1. Mint LITCREDIT by opening a vault
+1. Mint LITCREDIT by opening a vault (deposit LITCOIN or USDC as collateral)
 2. Submit a prompt to the Compute API
 3. Coordinator routes to the best available relay miner
 4. Relay miner runs the prompt and returns a signed response
@@ -389,8 +390,8 @@ All endpoints accept `{ "bankrKey": "bk_..." }` in the request body. Rate limite
 | /v1/bankr/stake | Stake at tier 1-4 (handles unstake+restake) | `tier` |
 | /v1/bankr/unstake | Normal unstake after lock expires | — |
 | /v1/bankr/early-unstake | Preview or execute early unstake with penalty | `confirm` (bool) |
-| /v1/bankr/vault/open | Open new vault with LITCOIN collateral | `amount` |
-| /v1/bankr/vault/add-collateral | Add LITCOIN to existing vault | `vaultId`, `amount` |
+| /v1/bankr/vault/open | Open vault with LITCOIN or USDC collateral | `amount`, optional `collateralType` ("usdc") |
+| /v1/bankr/vault/add-collateral | Add collateral to vault (auto-detects token) | `vaultId`, `amount` |
 | /v1/bankr/vault/mint | Mint LITCREDIT against vault | `vaultId`, `amount` |
 | /v1/bankr/vault/repay | Repay vault debt | `vaultId`, optional `amount` |
 | /v1/bankr/vault/close | Repay debt + close vault (auto-retry) | `vaultId` |
