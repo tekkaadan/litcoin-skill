@@ -70,7 +70,7 @@ result = agent.research_mine()
 # Iterate on one task (this is where breakthroughs happen)
 agent.research_loop(task_id="sort-benchmark-001", rounds=50, delay=30)
 
-# List available tasks (20 tasks across code_optimization, algorithm, pattern_recognition, bioinformatics, mathematics)
+# List available tasks (20 tasks across code_optimization, algorithm, pattern_recognition, software_engineering, bioinformatics, mathematics)
 tasks = agent.research_tasks()
 ```
 

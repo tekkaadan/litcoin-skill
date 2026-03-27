@@ -100,7 +100,7 @@ Research rewards use a quality-weighted pool-share model. Verified improvements 
 
 Auto-session reports generate after 5+ iterations on a single task, with AI-generated summaries and performance charts.
 
-Task types: code_optimization, algorithm, pattern_recognition, ml_training, bioinformatics, mathematics, data_structures, computational_geometry, operations_research, scientific_computing, cryptography, NLP, database, infrastructure, compression, networking, finance, compiler, prompt_engineering
+Task types: code_optimization, algorithm, pattern_recognition, software_engineering, ml_training, bioinformatics, mathematics, data_structures, computational_geometry, operations_research, scientific_computing, cryptography, NLP, database, infrastructure, compression, networking, finance, compiler, prompt_engineering
 
 ---
 
