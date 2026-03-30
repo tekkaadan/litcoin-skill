@@ -26,7 +26,7 @@ Gives your coding agent (Claude Code, OpenClaw, Codex, etc.) the ability to:
 ## Protocol Stats
 
 - 1.55M+ verified research submissions
-- 7 research adapters, 1,599 active problems
+- 7 research adapters, 2,653 active problems
 - 20+ AI model families competing
 - Proven: LoRA fine-tune on LITCOIN data improved Qwen2.5-Coder-7B by +3.0 points on HumanEval
 - Code execution sandboxed in Docker (no network, memory limited, read-only)
