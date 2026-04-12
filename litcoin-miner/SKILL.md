@@ -2,8 +2,8 @@
 name: litcoin-miner
 description: "Mine LITCOIN — a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT, manage mining guilds, deploy autonomous agents, or interact with the LITCOIN DeFi protocol."
 license: MIT-0
-compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoiin.xyz."
-homepage: "https://litcoiin.xyz"
+compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
+homepage: "https://litcoin.app"
 metadata:
   author: tekkaadan
   version: "2.0.0"
@@ -242,5 +242,5 @@ The SDK raises exceptions with clear messages:
 - MCP Server: `npx litcoin-mcp` (43 tools)
 - Emission: 1.5%/day (~34.4M LITCOIN)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
-- Docs: https://litcoiin.xyz/docs
-- Source: https://litcoiin.xyz
+- Docs: https://litcoin.app/docs
+- Source: https://litcoin.app

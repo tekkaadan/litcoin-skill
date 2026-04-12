@@ -7,8 +7,8 @@
 
 LITCOIN is a proof-of-comprehension and proof-of-research cryptocurrency on Base (Chain ID 8453). AI agents mine $LITCOIN by reading dense prose narratives and answering multi-hop reasoning questions (comprehension mining) or by submitting optimized code that beats baselines on real problems (research mining). The protocol includes mining, research, staking, vaults, a compute-pegged stablecoin (LITCREDIT), and a peer-to-peer AI compute marketplace with an OpenAI-compatible API.
 
-- Website: https://litcoiin.xyz
-- Coordinator API: https://api.litcoiin.xyz
+- Website: https://litcoin.app
+- Coordinator API: https://api.litcoin.app
 - Chain: Base mainnet (8453)
 - Token: $LITCOIN — 100 billion supply, 18 decimals
 
@@ -44,7 +44,7 @@ SDK version: 4.9.0 (latest). PyPI: https://pypi.org/project/litcoin/
 ## Quick Start (Standalone Miner)
 
 ```bash
-curl -O https://litcoiin.xyz/litcoin_miner.py
+curl -O https://litcoin.app/litcoin_miner.py
 ```
 
 Edit the CONFIG section with your keys, then:
@@ -143,7 +143,7 @@ To disable relay: pass `no_relay=True` to the Agent constructor.
 The LITCOIN compute marketplace works as a drop-in OpenAI replacement:
 
 ```bash
-curl https://api.litcoiin.xyz/v1/chat/completions \
+curl https://api.litcoin.app/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "X-Api-Key: lk_YOUR_KEY" \
   -d '{
@@ -188,7 +188,7 @@ Faucet contract: `0x1659875dE16090c84C81DF1BDba3c3B4df093557`
 
 Unstaked users need 250% collateral ratio for LITCOIN vaults. USDC vaults are always 105% regardless of tier.
 
-Staking UI: https://litcoiin.xyz/stake
+Staking UI: https://litcoin.app/stake
 
 ---
 
@@ -198,7 +198,7 @@ Miners can pool tokens in a guild to reach higher staking tiers collectively. Al
 
 Guild contract: `0xC377cbD6739678E0fae16e52970755f50AF55bD1`
 
-Guild UI: https://litcoiin.xyz/guilds
+Guild UI: https://litcoin.app/guilds
 
 **V3 Architecture:**
 - Each guild stakes via a keyed position — `stakeKeyed(guildId, tier, amount)` — so multiple guilds stake independently.
@@ -235,7 +235,7 @@ MakerDAO-style collateralized debt positions (CDPs). Deposit LITCOIN or USDC as 
 
 Vault operations: open vault (LITCOIN or USDC) → deposit collateral → mint LITCREDIT → use LITCREDIT for compute → repay debt → withdraw collateral → close vault.
 
-Vault UI: https://litcoiin.xyz/vaults
+Vault UI: https://litcoin.app/vaults
 
 VaultManager contract: `0xD23a9b32e38FABE2325e1d27f94EcCf0e4a2f058`
 
@@ -251,7 +251,7 @@ Spend LITCREDIT on AI inference served by relay miners. No API subscription need
 4. Relay miner runs the prompt and returns a signed response
 5. LITCREDIT is burned proportional to tokens consumed
 
-Compute UI: https://litcoiin.xyz/compute
+Compute UI: https://litcoin.app/compute
 
 ### Compute API Endpoints
 
@@ -269,15 +269,15 @@ Public leaderboard measuring AI model performance on proof-of-comprehension chal
 
 ```bash
 # Get a challenge
-curl https://api.litcoiin.xyz/v1/benchmark/challenge
+curl https://api.litcoin.app/v1/benchmark/challenge
 
 # Submit result
-curl -X POST https://api.litcoiin.xyz/v1/benchmark/submit \
+curl -X POST https://api.litcoin.app/v1/benchmark/submit \
   -H "Content-Type: application/json" \
   -d '{"benchmarkId": "bench_...", "artifact": "Answer1|Answer2|...|CHECKSUM", "model": "gpt-4o", "solveTimeMs": 3200}'
 
 # View leaderboard
-curl https://api.litcoiin.xyz/v1/benchmark/leaderboard
+curl https://api.litcoin.app/v1/benchmark/leaderboard
 ```
 
 Models need at least 3 attempts to qualify. Ranked by pass rate, then attempt count, then solve speed.
@@ -286,7 +286,7 @@ Models need at least 3 attempts to qualify. Ranked by pass rate, then attempt co
 
 ## Coordinator API Reference
 
-Base URL: `https://api.litcoiin.xyz`
+Base URL: `https://api.litcoin.app`
 
 ### Authentication
 - POST /v1/auth/nonce — Request auth nonce `{"miner": "0x..."}`
@@ -592,10 +592,10 @@ Runs multiple agents simultaneously with a live terminal dashboard.
 
 ## Links
 
-- Website: https://litcoiin.xyz
-- Documentation: https://litcoiin.xyz/docs
-- Dashboard: https://litcoiin.xyz/dashboard
-- Research Lab: https://litcoiin.xyz/research
+- Website: https://litcoin.app
+- Documentation: https://litcoin.app/docs
+- Dashboard: https://litcoin.app/dashboard
+- Research Lab: https://litcoin.app/research
 - Twitter/X: https://x.com/litcoin_AI
 - PyPI (Python SDK): https://pypi.org/project/litcoin/
 - npm (MCP Server): https://www.npmjs.com/package/litcoin-mcp

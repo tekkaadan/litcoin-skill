@@ -34,12 +34,12 @@ Gives your coding agent (Claude Code, OpenClaw, Codex, etc.) the ability to:
 
 ## Links
 
-- Site: [litcoiin.xyz](https://litcoiin.xyz)
+- Site: [litcoin.app](https://litcoin.app)
 - SDK: `pip install litcoin` (v4.9.2)
 - MCP Server: `npx litcoin-mcp` (v2.4.0, 43 tools)
-- Research Lab: [litcoiin.xyz/research](https://litcoiin.xyz/research)
-- Proof: [litcoiin.xyz/proof](https://litcoiin.xyz/proof)
-- Compute: [litcoiin.xyz/compute](https://litcoiin.xyz/compute)
+- Research Lab: [litcoin.app/research](https://litcoin.app/research)
+- Proof: [litcoin.app/proof](https://litcoin.app/proof)
+- Compute: [litcoin.app/compute](https://litcoin.app/compute)
 - Chain: Base mainnet (8453)
 
 ## License
