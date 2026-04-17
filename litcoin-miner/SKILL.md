@@ -6,7 +6,7 @@ compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app.
 homepage: "https://litcoin.app"
 metadata:
   author: tekkaadan
-  version: "2.0.0"
+  version: "2.1.0"
   openclaw:
     requires:
       env: ["BANKR_API_KEY"]
@@ -70,7 +70,10 @@ result = agent.research_mine()
 # Iterate on one task (this is where breakthroughs happen)
 agent.research_loop(task_id="sort-benchmark-001", rounds=50, delay=30)
 
-# List available tasks (20 tasks across code_optimization, algorithm, pattern_recognition, software_engineering, bioinformatics, mathematics)
+# List available tasks (20 adapters: code_optimization, algorithm, pattern_recognition, software_engineering,
+# bioinformatics, mathematics, compression, security-audit, red-team, proof-of-verification,
+# knowledge-synthesis, exploit-forensics, adversarial-robustness, agentic-trace,
+# tcg-card-profile, tcg-sentiment, and more)
 tasks = agent.research_tasks()
 ```
 
@@ -147,6 +150,30 @@ result = agent.compute("Explain proof of research")
 print(result['response'])
 ```
 
+## TCG Intelligence
+
+Query the card catalog across Pokemon, Magic, Yu-Gi-Oh, One Piece, and Greed Island. 800K+ cards indexed with live pricing and community sentiment.
+
+```python
+# Catalog stats
+stats = agent.tcg_stats()
+
+# Search by game, rarity, sort by price
+holos = agent.tcg_search(game="pokemon", rarity="Holo Rare", sort="price-desc", limit=10)
+
+# Single card details + latest price
+card = agent.tcg_card("pokemon", "base1", "4")  # Base set Charizard
+
+# 90-day price history for one card
+history = agent.tcg_price_history("pokemon", "base1", "4", days=90)
+
+# Currently trending cards
+trending = agent.tcg_trending(game="mtg", days=7, limit=20)
+
+# Live prices for top-value cards (refreshed every 30 minutes)
+live = agent.tcg_prices_live()
+```
+
 ## Full Flywheel Example
 
 ```python
@@ -204,8 +231,16 @@ print(result['response'])
 - `vault_health(vault_id)` — Collateral ratio
 
 ### Compute
-- `deposit_escrow(amount)` — Deposit LITCREDIT
-- `compute(prompt)` — AI inference via relay network
+- `deposit_escrow(amount)` - Deposit LITCREDIT
+- `compute(prompt)` - AI inference via relay network
+
+### TCG Intelligence
+- `tcg_stats()` - Catalog stats across all five games
+- `tcg_search(game, query, set_code, rarity, sort, limit, offset)` - Search cards (sort: name, number, rarity, price-desc, price-asc, recent)
+- `tcg_card(game, set_code, card_number)` - Full card details + latest price
+- `tcg_price_history(game, set_code, card_number, days)` - Daily price history (up to 365 days)
+- `tcg_trending(game, days, limit)` - Trending cards by price momentum + sentiment
+- `tcg_prices_live()` - Live prices for top-value cards across all games
 
 ### Guilds
 - `create_guild(name)` — Create guild
@@ -238,9 +273,12 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.9.2 on [PyPI](https://pypi.org/project/litcoin/)
-- MCP Server: `npx litcoin-mcp` (43 tools)
+- SDK: v4.10.0 on [PyPI](https://pypi.org/project/litcoin/)
+- MCP Server: `npx litcoin-mcp` (62 tools)
 - Emission: 1.5%/day (~34.4M LITCOIN)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
+- 20 research adapters producing verified code and structured data
+- TCG intelligence across Pokemon, Magic, Yu-Gi-Oh, One Piece, Greed Island
 - Docs: https://litcoin.app/docs
+- Cards: https://litcoin.app/cards
 - Source: https://litcoin.app
