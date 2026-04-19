@@ -35,8 +35,8 @@ Gives your coding agent (Claude Code, OpenClaw, Codex, etc.) the ability to:
 ## Links
 
 - Site: [litcoin.app](https://litcoin.app)
-- SDK: `pip install litcoin` (v4.9.2)
-- MCP Server: `npx litcoin-mcp` (v2.4.0, 43 tools)
+- SDK: `pip install litcoin` (v4.10.1)
+- MCP Server: `npx litcoin-mcp` (v2.6.3, 61 tools)
 - Research Lab: [litcoin.app/research](https://litcoin.app/research)
 - Proof: [litcoin.app/proof](https://litcoin.app/proof)
 - Compute: [litcoin.app/compute](https://litcoin.app/compute)

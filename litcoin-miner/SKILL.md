@@ -6,7 +6,7 @@ compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app.
 homepage: "https://litcoin.app"
 metadata:
   author: tekkaadan
-  version: "2.1.0"
+  version: "2.1.1"
   openclaw:
     requires:
       env: ["BANKR_API_KEY"]
@@ -273,7 +273,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.10.0 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.10.1 on [PyPI](https://pypi.org/project/litcoin/)
 - MCP Server: `npx litcoin-mcp` (62 tools)
 - Emission: 1.5%/day (~34.4M LITCOIN)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
