@@ -37,7 +37,7 @@ agent.mine()
 agent.claim()
 ```
 
-SDK version: 4.10.1 (latest). PyPI: https://pypi.org/project/litcoin/
+SDK version: 4.10.2 (latest). PyPI: https://pypi.org/project/litcoin/
 
 ---
 
@@ -402,7 +402,7 @@ All endpoints accept `{ "bankrKey": "bk_..." }` in the request body. Rate limite
 
 ---
 
-## SDK Reference (v4.10.1)
+## SDK Reference (v4.10.2)
 
 ```bash
 pip install litcoin

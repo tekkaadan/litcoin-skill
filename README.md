@@ -35,7 +35,7 @@ Gives your coding agent (Claude Code, OpenClaw, Codex, etc.) the ability to:
 ## Links
 
 - Site: [litcoin.app](https://litcoin.app)
-- SDK: `pip install litcoin` (v4.10.1)
+- SDK: `pip install litcoin` (v4.10.2)
 - Research Lab: [litcoin.app/research](https://litcoin.app/research)
 - Proof: [litcoin.app/proof](https://litcoin.app/proof)
 - Compute: [litcoin.app/compute](https://litcoin.app/compute)

@@ -273,7 +273,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.10.1 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.10.2 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.5%/day (~34.4M LITCOIN)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 20 research adapters producing verified code and structured data
