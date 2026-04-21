@@ -13,24 +13,34 @@ hermes skills install well-known/litcoin.app/litcoin-miner
 Or via the skills.sh GitHub aggregator:
 
 ```bash
-hermes skills install skills-sh/tekkaadan/litcoin-skill/litcoin-miner
+hermes skills install skills-sh/tekkaadan/litcoin-skill
 ```
 
 ### Claude Code
 
-```bash
-git clone https://github.com/tekkaadan/litcoin-skill.git "$HOME/.claude/skills/litcoin-skill"
+**Windows (PowerShell):**
+
+```powershell
+git clone https://github.com/tekkaadan/litcoin-skill.git "$env:USERPROFILE\.claude\skills\litcoin-miner"
 ```
 
-Then restart Claude Code. The skill auto-activates on crypto / mining / DeFi prompts.
-
-### Codex, Cursor, OpenCode, Goose, and any other agentskills.io-compatible client
+**macOS / Linux:**
 
 ```bash
-git clone https://github.com/tekkaadan/litcoin-skill.git
+git clone https://github.com/tekkaadan/litcoin-skill.git ~/.claude/skills/litcoin-miner
 ```
 
-Point your agent's skills directory at `litcoin-skill/litcoin-miner/`. (Most clients also accept a direct GitHub identifier; see your client's docs.)
+Then restart Claude Code. The skill auto-activates on crypto, mining, and DeFi prompts.
+
+### Codex, Cursor, OpenCode, Goose, Gemini CLI, and any other agentskills.io-compatible client
+
+Clone directly into your agent's skills directory. Example for Cursor:
+
+```bash
+git clone https://github.com/tekkaadan/litcoin-skill.git ~/.cursor/skills/litcoin-miner
+```
+
+The skill folder name must be `litcoin-miner` to match the `name` field in the SKILL.md frontmatter. Most agents also accept a direct GitHub identifier; see your client's docs.
 
 ### Universal (no skill runtime needed)
 
