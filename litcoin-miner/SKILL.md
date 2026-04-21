@@ -1,12 +1,21 @@
 ---
 name: litcoin-miner
-description: "Mine LITCOIN — a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT, manage mining guilds, deploy autonomous agents, or interact with the LITCOIN DeFi protocol."
+description: "Mine LITCOIN, a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT, manage mining guilds, deploy autonomous agents, or interact with the LITCOIN DeFi protocol."
 license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
-homepage: "https://litcoin.app"
 metadata:
   author: tekkaadan
-  version: "2.1.1"
+  version: "2.1.2"
+  homepage: "https://litcoin.app"
+  repository: "https://github.com/tekkaadan/litcoin-skill"
+  tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
+  hermes:
+    tags: [crypto, mining, defi, ai-agent, base, research, staking]
+    required_environment_variables:
+      - name: BANKR_API_KEY
+        prompt: "Paste your Bankr API key (starts with 'bk_'). Get one at https://bankr.bot/api with agent write access enabled."
+        help: "Controls the on-chain wallet used for mining, claims, staking, and vault operations."
+        required_for: [mining, claims, staking, vaults, compute]
   openclaw:
     requires:
       env: ["BANKR_API_KEY"]
@@ -15,9 +24,6 @@ metadata:
     requires:
       env: ["BANKR_API_KEY"]
       primaryEnv: "BANKR_API_KEY"
-  hermes:
-    tags: [crypto, mining, defi, ai-agent, base, research, staking]
-    category: crypto
 ---
 
 # LITCOIN Miner
