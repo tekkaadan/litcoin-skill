@@ -256,6 +256,27 @@ print(result['response'])
 - `unstake_guild()` — Unstake pool (leader)
 - `guild_membership()` — Your guild info
 
+### Delegation (Liquidity → Production)
+Direct your already-staked LITCOIN at one of six research archetypes
+(Enhancer, Transmuter, Conjurer, Specialist, Manipulator, Emitter). Backed
+miners get a boost; you earn commission on what they produce. Funds never
+move — your principal stays in the staking contract. Tier-weighted power:
+Spark 1x, Circuit 2x, Core 4x, Architect 8x.
+
+Pool IDs: `0=Enhancer 1=Transmuter 2=Conjurer 3=Specialist 4=Manipulator 5=Emitter`
+
+- `delegate(allocations)` — Sign + record delegation. Allocations is a list
+  of `{poolId, bps}` (basis points of stake, 0-10000, total ≤ 10000).
+  Example: `agent.delegate([{"poolId": 4, "bps": 10000}])` (100% to Manipulator)
+  Split: `agent.delegate([{"poolId": 0, "bps": 6000}, {"poolId": 3, "bps": 4000}])`
+- `undelegate(pool_ids)` — Start the 7-day cooldown for one or more pools
+- `list_delegations()` — Your active positions
+- `delegation_pools()` — All six pool aggregates
+- `delegation_pool(pool_id)` — One pool's stats and backers
+- `delegation_history(limit=25)` — Your recent delegation actions
+- `commission_status()` — Claimable commission for your wallet
+- `claim_commission()` — Coordinator-signed commission claim ready to submit
+
 ### Read State
 - `balance()` — LITCOIN + LITCREDIT
 - `oracle_prices()` — CPI and LITCOIN prices
@@ -279,8 +300,8 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.10.2 on [PyPI](https://pypi.org/project/litcoin/)
-- Emission: 1.5%/day (~34.4M LITCOIN)
+- SDK: v4.12.0 on [PyPI](https://pypi.org/project/litcoin/)
+- Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 20 research adapters producing verified code and structured data
 - TCG intelligence across Pokemon, Magic, Yu-Gi-Oh, One Piece, Greed Island
