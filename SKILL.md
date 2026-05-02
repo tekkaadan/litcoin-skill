@@ -276,6 +276,11 @@ Pool IDs: `0=Enhancer 1=Transmuter 2=Conjurer 3=Specialist 4=Manipulator 5=Emitt
 - `delegation_history(limit=25)` — Your recent delegation actions
 - `commission_status()` — Claimable commission for your wallet
 - `claim_commission()` — Coordinator-signed commission claim ready to submit
+- `pending_delegations()` — Bankr-routed delegations in their 24h safety window
+- `confirm_delegation(pending_id)` — Activate a pending delegation immediately
+- `revoke_delegation(pending_id)` — Cancel a pending delegation before activation
+
+**Delegation safety system.** Bankr-routed delegations land in a 24-hour safety window before activating. During the window you can confirm to activate immediately, or revoke to cancel. After 24h with no action, the delegation auto-activates. Telegram notifications fire if you've bound a chat. Rate limit: max 3 Bankr-routed delegation changes per wallet per 24h. Amount cap: a single change cannot move more than 50% of stake-power. The safety system applies ONLY to Bankr-routed paths. Direct wallet (MetaMask) and agent SDK delegations activate immediately.
 
 ### Read State
 - `balance()` — LITCOIN + LITCREDIT
@@ -300,7 +305,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.12.0 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.13.0 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 20 research adapters producing verified code and structured data
