@@ -5,7 +5,7 @@ license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.1.2"
+  version: "2.2.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -279,8 +279,23 @@ Pool IDs: `0=Enhancer 1=Transmuter 2=Conjurer 3=Specialist 4=Manipulator 5=Emitt
 - `pending_delegations()` — Bankr-routed delegations in their 24h safety window
 - `confirm_delegation(pending_id)` — Activate a pending delegation immediately
 - `revoke_delegation(pending_id)` — Cancel a pending delegation before activation
+- `delegation_lock_status()` — 7-day commitment lock countdown for your positions
+- `emergency_exit()` — Break the 7-day commitment. Penalty: 14 days of staking yield, routed to research mining pool. Principal untouched.
+- `backed_miners()` — Pools you back, miners opted in, recent commission earnings
 
 **Delegation safety system.** Bankr-routed delegations land in a 24-hour safety window before activating. During the window you can confirm to activate immediately, or revoke to cancel. After 24h with no action, the delegation auto-activates. Telegram notifications fire if you've bound a chat. Rate limit: max 3 Bankr-routed delegation changes per wallet per 24h. Amount cap: a single change cannot move more than 50% of stake-power. The safety system applies ONLY to Bankr-routed paths. Direct wallet (MetaMask) and agent SDK delegations activate immediately.
+
+**Lock + emergency exit.** When a delegation signature lands, every position is locked for 7 days. You cannot re-delegate elsewhere until the lock expires. Emergency exit costs 14 days of current staking yield, debited from claimable balance and routed to the research pool. Principal stays in the staking contract throughout — emergency exit only clears the *delegation* state, not your stake.
+
+### Boost program (miner-side)
+
+Miners can opt INTO a pool's boost program to earn the boost share that delegators direct to that pool. Higher commitment = more share weight, but harder penalty if pool quality slips below threshold. Threshold = avg quality ≥6/10 AND ≥5 verified subs/day.
+
+- `opt_in_to_boost(pool_id, commitment_tier=1)` — Commit this miner to a pool. Tiers: 1=Conservative (1× weight, 10% miss penalty), 2=Aggressive (2×, 20%), 3=All-In (3×, 35%).
+- `opt_out_of_boost(pool_id)` — End the commitment. Future settlements will skip this miner in this pool.
+- `boost_optin_status()` — Active opt-ins for your wallet across all six pools.
+
+The boost share is sourced from a 2.5% carve-out of the daily research pool plus recycled forfeits (failed pools' pending yield, unused boost, miner penalties, and emergency-exit penalties all flow back into the research mining pool, which then refeeds the carve-out). Unbacked miners are unaffected.
 
 ### Read State
 - `balance()` — LITCOIN + LITCREDIT
@@ -305,7 +320,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.13.0 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.14.1 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 20 research adapters producing verified code and structured data
