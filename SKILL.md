@@ -297,6 +297,8 @@ Miners can opt INTO a pool's boost program to earn the boost share that delegato
 
 The boost share is sourced from a 2.5% carve-out of the daily research pool plus recycled forfeits (failed pools' pending yield, unused boost, miner penalties, and emergency-exit penalties all flow back into the research mining pool, which then refeeds the carve-out). Unbacked miners are unaffected.
 
+**Auto-enrollment (added 2026-05-04).** Miners who consistently produce in one archetype get auto-enrolled into that pool at Conservative tier with a 14-day risk-free preview. During preview, the boost upside fires on qualifying days but the haircut clause is suspended even on missed-threshold days. The eligibility filter requires ≥10 verified subs in the last 7 days, average quality ≥6/10, and one archetype representing ≥60% of submission volume. Generalists are excluded (they would miss threshold and lose money). After preview matures, normal rules apply automatically. Operator can opt out anytime during preview, zero penalty. Check status with `GET /v1/boost/preview-status?wallet=...` or via the dashboard banner.
+
 ### Read State
 - `balance()` — LITCOIN + LITCREDIT
 - `oracle_prices()` — CPI and LITCOIN prices
