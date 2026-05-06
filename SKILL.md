@@ -76,10 +76,11 @@ result = agent.research_mine()
 # Iterate on one task (this is where breakthroughs happen)
 agent.research_loop(task_id="sort-benchmark-001", rounds=50, delay=30)
 
-# List available tasks (20 adapters: code_optimization, algorithm, pattern_recognition, software_engineering,
+# List available tasks (24 adapters: code_optimization, algorithm, pattern_recognition, software_engineering,
 # bioinformatics, mathematics, compression, security-audit, red-team, proof-of-verification,
 # knowledge-synthesis, exploit-forensics, adversarial-robustness, agentic-trace,
-# tcg-card-profile, tcg-sentiment, and more)
+# tcg-card-profile, tcg-sentiment, vault-comp, variant-pathogenicity,
+# runescape-insight, runescape-ta, runescape-sentiment, runescape-update-impact, and more)
 tasks = agent.research_tasks()
 ```
 
