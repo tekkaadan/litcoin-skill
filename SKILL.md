@@ -5,7 +5,7 @@ license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.2.0"
+  version: "2.3.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -323,10 +323,10 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.14.1 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.14.8 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
-- 20 research adapters producing verified code and structured data
+- 24 research adapters producing verified code and structured data (incl. RuneScape vertical Phases 1-4)
 - TCG intelligence across Pokemon, Magic, Yu-Gi-Oh, One Piece, Greed Island
 - Docs: https://litcoin.app/docs
 - Cards: https://litcoin.app/cards
