@@ -1,6 +1,6 @@
 ---
 name: litcoin-miner
-description: "Mine LITCOIN, a proof-of-comprehension and proof-of-research cryptocurrency on Base. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN, open vaults, mint LITCREDIT, manage mining guilds, deploy autonomous agents, or interact with the LITCOIN DeFi protocol."
+description: "Mine, stake, claim, and manage LITCOIN. Bankr-driven: 'stake my litcoin to tier 3' or 'claim my rewards' work via @bankrbot on X. Use when the user wants to mine crypto with AI, earn tokens through reading comprehension or solving optimization problems, stake LITCOIN at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, deploy autonomous research agents, or interact with the LITCOIN DeFi protocol on Base."
 license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
@@ -96,6 +96,35 @@ agent = Agent(
 )
 agent.research_mine()
 ```
+
+## Bankr X Bot (@bankrbot) Integration
+
+Every Python SDK call above maps to a coordinator endpoint at `https://api.litcoin.app/v1/bankr/*`. Bankr's @bankrbot on X is wired into this surface, so a Bankr user can do the entire LITCOIN flywheel from X with plain-language requests like:
+
+- "claim my litcoin rewards"
+- "stake 5M litcoin into tier 2"
+- "upgrade my stake to architect"
+- "add 10M to my stake"
+- "open a usdc vault with 1000"
+- "mint 500 litcredit from vault 7"
+- "delegate 100% of my stake to manipulator"
+- "opt me into the conjurer boost pool"
+- "join guild 1 with 5M"
+- "deposit 100 litcredit into compute escrow"
+
+Bankr resolves the user's wallet from their bk_ key, the coordinator builds the calldata, Bankr signs and submits the tx on Base. No private key ever touches the coordinator. The full Bankr surface today:
+
+| Domain | Endpoints |
+|---|---|
+| Claims | `/v1/bankr/claim-with-key` |
+| Staking | `stake` `unstake` `early-unstake` `upgrade-tier` `add-to-stake` `stake/info` |
+| Vaults | `vault/open` `vault/add-collateral` `vault/mint` `vault/repay` `vault/withdraw` `vault/close` `vault/details` |
+| Delegation | `delegate` `undelegate` `boost/opt-in` `boost/opt-out` |
+| Guilds | `guild/join` `guild/leave` `guild/unstake` |
+| Compute | `escrow/deposit` |
+| Read | `balance` |
+
+All Bankr-routed delegation changes pass through a 24-hour safety window (rate-limited to 3 per wallet per 24h, max 50% of stake-power per change) before activating. All other Bankr calls execute immediately on-chain. Set `BANKR_API_KEY` once and every Agent method routes through Bankr automatically.
 
 ## Staking (Mining Boost)
 
@@ -323,7 +352,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.14.9 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.15.1 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 24 research adapters producing verified code and structured data (incl. RuneScape vertical Phases 1-4)
