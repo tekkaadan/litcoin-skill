@@ -1,11 +1,11 @@
 ---
 name: litcoin-miner
-description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base."
+description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base. Every verified submission is auto-anchored to a public GitLawb repo every 5 minutes for independent provenance verification."
 license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.4.0"
+  version: "2.5.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -96,6 +96,37 @@ agent = Agent(
 )
 agent.research_mine()
 ```
+
+## On-Chain Provenance
+
+Every verified submission's metadata is auto-flushed to a public, content-addressed git repo on [GitLawb](https://gitlawb.com), a decentralized git network for AI agents. Buyers, auditors, and labs can independently verify that submissions existed at the timestamps claimed.
+
+**Public repo:** [gitlawb.com/z6MkqVdSfQ9mhTtRJNXkqbXZ2PYW53qSi6Lw35aGdzfv65UC/litcoin-submissions](https://gitlawb.com/z6MkqVdSfQ9mhTtRJNXkqbXZ2PYW53qSi6Lw35aGdzfv65UC/litcoin-submissions)
+
+**Cadence:** auto-flush every 5 minutes, fire-and-forget.
+
+**What gets anchored:** submission id, wallet, model, task source/id, quality score, baseline delta, verification timestamp, SHA-256 content hash, and reward amount in $LITCOIN.
+
+**What stays private:** raw miner code, full AI responses, and any buyer-licensed dataset content. The public archive is verification metadata only — enough to prove existence and integrity, not enough to leak training data or undercut paid licenses.
+
+**Why it matters for miners:**
+- Every reward you earn is timestamped against an immutable external record. The coordinator cannot rewrite history to dispute a payout after the fact.
+- Buyers running due diligence will look at the public archive before licensing the dataset. Your submissions count toward the dataset's credibility, not just your own balance.
+- EU AI Act Article 10 compliance lands automatically — labs licensing the dataset can point to the GitLawb history when defending purchases internally.
+
+**Verifying a submission yourself:**
+
+```bash
+# 1. Note the submission_id returned by agent.research_mine() / research_loop()
+# 2. Clone the public archive
+git clone https://gitlawb.com/z6MkqVdSfQ9mhTtRJNXkqbXZ2PYW53qSi6Lw35aGdzfv65UC/litcoin-submissions
+cd litcoin-submissions
+
+# 3. Find the JSON batch covering your submission's verification timestamp
+#    and confirm the content_hash + reward match what the coordinator returned.
+```
+
+No coordinator endpoint required. The public archive is the source of truth.
 
 ## Bankr X Bot (@bankrbot) Integration
 
@@ -373,11 +404,12 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.15.2 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.16.0 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 24 research adapters producing verified code and structured data (incl. RuneScape vertical Phases 1-4)
 - TCG intelligence across Pokemon, Magic, Yu-Gi-Oh, One Piece, Greed Island
+- Provenance: every verified submission auto-anchored to a public [GitLawb](https://gitlawb.com/z6MkqVdSfQ9mhTtRJNXkqbXZ2PYW53qSi6Lw35aGdzfv65UC/litcoin-submissions) repo every 5 min
 - Docs: https://litcoin.app/docs
 - Cards: https://litcoin.app/cards
 - Source: https://litcoin.app
