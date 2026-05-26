@@ -39,6 +39,29 @@ Mine $LITCOIN on Base (chain 8453) using the Python SDK. Two mining paths: compr
 pip install litcoin
 ```
 
+## Base MCP plugin (alternative path, no SDK)
+
+If you're running inside Base MCP (Claude.ai, ChatGPT, Cursor, Codex, Claude Code, Goose, any harness with HTTP), you can drive every on-chain LITCOIN action through HTTP without installing the SDK. The plugin spec is at:
+
+```
+https://litcoin.app/.well-known/base-mcp/litcoin.md
+```
+
+It exposes 24 GET / POST endpoints under `https://api.litcoin.app`:
+
+- `/v1/mcp/state/:wallet` — balances, staking, vaults, escrow, claimable, oracle price (one round trip)
+- `/v1/mcp/prepare/{stake,unstake,upgrade-tier,add-to-stake,claim,approve-litcoin,approve-token,open-vault,open-vault-v2,mint-litcredit,repay-debt,add-collateral,withdraw-collateral,close-vault,deposit-escrow,withdraw-escrow,buy-litcoin,transfer,early-unstake}` — returns unsigned calldata envelope `{ to, from, data, value, chainId, description, meta }` for Base MCP `send_calls`
+- `/v1/data/x402/onboard/{pilot,standard,domain,enterprise}` — Data Card subscription purchase via the x402 HTTP payment protocol
+
+This SDK and the Base MCP plugin cover overlapping ground; pick the one that fits your harness:
+
+| Need | Use |
+|---|---|
+| Hosted research mining where the coordinator runs Sentinels with one key | LITCOIN SDK + Bankr (this skill) |
+| On-chain actions from an AI agent (stake, claim, vault, transfer, buy) | Base MCP plugin |
+| Data Card subscription as an agent | Base MCP plugin x402 path |
+| Anything off-chain (submit research solutions, query datasets) | LITCOIN SDK |
+
 ## Quick Start — Comprehension Mining
 
 No LLM or AI key needed. The SDK's deterministic solver parses documents without LLM calls.
