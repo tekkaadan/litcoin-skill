@@ -1,11 +1,11 @@
 ---
 name: litcoin-miner
-description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base. Every verified submission is auto-anchored to a public GitLawb repo every 5 minutes for independent provenance verification."
+description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base. Every verified submission is auto-anchored to a public GitLawb repo every 5 minutes for independent provenance verification. Mine for free with OpenCode Zen (NVIDIA Nemotron, DeepSeek, Qwen), a local Ollama model, or any OpenAI-compatible endpoint via ai_url; built-in rate-limit cadence keeps you under free-tier caps."
 license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.6.0"
+  version: "2.7.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -119,6 +119,41 @@ agent = Agent(
 )
 agent.research_mine()
 ```
+
+### Mine for FREE with OpenCode Zen (NVIDIA Nemotron, DeepSeek, Qwen)
+
+[OpenCode Zen](https://opencode.ai) is a curated, OpenAI-compatible gateway with several **free** models, so you can research-mine at zero inference cost. Sign in at opencode.ai, grab a Zen key, then point the miner at it:
+
+```python
+from litcoin import Agent, free_models, OPENCODE_ZEN_BASE
+
+# See what's free + clean right now (drops models LITCOIN haircuts).
+# Returns live ids like nemotron-3-ultra-free, deepseek-v4-flash-free, qwen3.6-plus-free.
+print(free_models(recommended_only=True))
+
+agent = Agent(
+    bankr_key="bk_YOUR_KEY",
+    ai_url=OPENCODE_ZEN_BASE,         # https://opencode.ai/zen/v1
+    ai_key="YOUR_OPENCODE_ZEN_KEY",   # free, from opencode.ai
+    model="nemotron-3-ultra-free",    # free NVIDIA Nemotron, 1M context
+    request_interval=8,               # seconds between LLM calls (free-tier rate cap)
+)
+agent.research_loop(task_type="code_optimization", rounds=20, delay=10)
+```
+
+**Rate limits / cadence.** Free gateways cap requests per minute. `request_interval` spaces calls out to stay under the cap; if you still hit a 429 the SDK backs off (respecting `Retry-After`) and retries the *same* model up to `rate_limit_retries` times before any failover. If you see repeated backoff warnings, raise `request_interval` (e.g. 12-15) or lower `rounds`.
+
+**Model choice.** Prefer Nemotron, DeepSeek, or Qwen. Avoid the MiniMax free models — they are on LITCOIN's flagged list and earn a 0.1x reward haircut (the SDK warns you on startup). The same `ai_url` swap also drives a local model (Ollama: `ai_url="http://localhost:11434/v1"`, `model="gemma4:12b"`) or any other OpenAI-compatible endpoint, so "free to mine" works with hosted free tiers or your own hardware.
+
+### Native in OpenCode and other skill-aware agents
+
+This skill installs natively in OpenCode, Claude Code, Codex, Cursor, Gemini CLI, Goose, and any harness that reads the `SKILL.md` standard. OpenCode scans `~/.claude/skills/`, `~/.config/opencode/skills/`, and project `.opencode/skills/`, so a single clone makes it available:
+
+```
+git clone https://github.com/tekkaadan/litcoin-skill ~/.claude/skills/litcoin-miner
+```
+
+Then in OpenCode select a free OpenCode Zen model (e.g. Nemotron 3 Ultra Free) and ask it to start a research miner — the skill drives the SDK, OpenCode's free model does the solving.
 
 ## On-Chain Provenance
 
