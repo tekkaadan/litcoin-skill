@@ -1,11 +1,11 @@
 ---
 name: litcoin-miner
-description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base. Every verified submission is auto-anchored to a public GitLawb repo every 5 minutes for independent provenance verification. Mine for free with OpenCode Zen (NVIDIA Nemotron, DeepSeek, Qwen), a local Ollama model, or any OpenAI-compatible endpoint via ai_url; built-in rate-limit cadence keeps you under free-tier caps."
+description: "Mine, stake, claim, and manage LITCOIN end-to-end through Bankr. Hosted mining via @bankrbot: 'start a research miner for me' deploys a server-side Sentinel that uses the Bankr key as the LLM key against llm.bankr.bot, so no other AI provider is needed. Stake at one of four tiers (Spark, Circuit, Conduit, Architect), claim accumulated rewards, delegate LITCOIN to one of six Nen archetype boost pools, opt into the miner boost program, open vaults, mint LITCREDIT, manage mining guilds, check or fund the compute escrow, become a LITCOIN X compute provider, or interact with the LITCOIN DeFi protocol on Base. Every verified submission is auto-anchored to a public GitLawb repo every 5 minutes for independent provenance verification. Mine for free with OpenCode Zen (NVIDIA Nemotron, DeepSeek, Qwen), Venice AI (privacy-first, free during beta), a local Ollama model, or any OpenAI-compatible endpoint via ai_url; built-in rate-limit cadence keeps you under free-tier caps."
 license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.7.0"
+  version: "2.8.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -144,6 +144,23 @@ agent.research_loop(task_type="code_optimization", rounds=20, delay=10)
 **Rate limits / cadence.** Free gateways cap requests per minute. `request_interval` spaces calls out to stay under the cap; if you still hit a 429 the SDK backs off (respecting `Retry-After`) and retries the *same* model up to `rate_limit_retries` times before any failover. If you see repeated backoff warnings, raise `request_interval` (e.g. 12-15) or lower `rounds`.
 
 **Model choice.** Prefer Nemotron, DeepSeek, or Qwen. Avoid the MiniMax free models — they are on LITCOIN's flagged list and earn a 0.1x reward haircut (the SDK warns you on startup). The same `ai_url` swap also drives a local model (Ollama: `ai_url="http://localhost:11434/v1"`, `model="gemma4:12b"`) or any other OpenAI-compatible endpoint, so "free to mine" works with hosted free tiers or your own hardware.
+
+### Mine on Venice AI (privacy-first, free during beta)
+
+[Venice AI](https://venice.ai) is a privacy-first, uncensored, OpenAI-compatible provider on Base (VVV token). It is a drop-in `ai_url` swap, free during beta with 500 starter credits:
+
+```python
+agent = Agent(
+    bankr_key="bk_YOUR_KEY",
+    ai_url="https://api.venice.ai/api/v1",   # Venice, OpenAI-compatible
+    ai_key="YOUR_VENICE_KEY",                # Inference-Only key from venice.ai/settings/api
+    model="qwen3-coder-480b-a35b-instruct-turbo",  # Venice default for code
+    request_interval=6,                      # space calls under beta rate limits
+)
+agent.research_loop(task_type="code_optimization", rounds=20, delay=10)
+```
+
+Good Venice models: `qwen3-coder-480b-a35b-instruct-turbo` (code), `qwen3-235b-a22b-thinking-2507` (reasoning), `zai-org-glm-4.7` (general/tool-calling), `deepseek-v3.2`. Avoid `minimax-*` (reward haircut). Model IDs version-churn, so `GET https://api.venice.ai/api/v1/models` lists the live catalog.
 
 ### Native in OpenCode and other skill-aware agents
 
