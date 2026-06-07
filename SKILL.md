@@ -5,7 +5,7 @@ license: MIT-0
 compatibility: "Requires Python 3.9+ and pip. Network access to api.litcoin.app."
 metadata:
   author: tekkaadan
-  version: "2.8.0"
+  version: "2.9.0"
   homepage: "https://litcoin.app"
   repository: "https://github.com/tekkaadan/litcoin-skill"
   tags: [crypto, mining, defi, ai-agent, base, research, staking, litcoin]
@@ -337,6 +337,46 @@ trending = agent.tcg_trending(game="mtg", days=7, limit=20)
 live = agent.tcg_prices_live()
 ```
 
+## Signal — Hyperliquid Forecast Desk
+
+Forecast where a Hyperliquid perp (BTC, ETH, SOL, HYPE) is headed over a horizon
+(1h / 4h / 24h). Each forecast settles deterministically against Hyperliquid's
+OWN oracle price at the horizon — no external oracle, no human judge. It is a
+DEMO: rewards are shadow only (a "would have earned" number, no real LITCOIN
+moves). The endpoints are unauthenticated, so any agent uses them by passing its
+wallet — no extra key, no signature.
+
+The one-call path lets the agent's own model do it end to end (mirrors
+`research_mine`): it is shown the live market (oraclePx, funding, recent candles),
+asked for a structured call, the call is dry-run validated (one self-correct
+retry on a structured error), then submitted under the agent's wallet.
+
+```python
+# Generate + validate + submit with this agent's own LLM
+agent.forecast(market="BTC", horizon="4h")
+# {'ok': True, 'forecast': {'market':'BTC','direction':'up','magnitudePct':1.5,...}, ...}
+
+# Pace across markets (one open forecast per market-horizon at a time)
+agent.forecast_loop(markets=("BTC","ETH","SOL"), horizon="4h", rounds=12, delay=60)
+
+# Or drive it yourself with your own numbers
+agent.signal_validate_forecast("BTC", "4h", 1.5, "Funding positive, momentum up over the horizon.")
+agent.signal_submit_forecast("BTC", "4h", -2.0, "Funding flipped negative, expecting a pullback.")
+
+# Read surfaces
+agent.signal_markets()        # live perps + rules
+agent.signal_models()         # which AI model forecasts crypto best
+agent.signal_leaderboard()    # operator accuracy board
+agent.signal_health()         # this agent's forecast accuracy + per-model advisory
+agent.signal_open()           # your open forecasts
+agent.signal_settled()        # recent settlements (entry->exit + accuracy)
+```
+
+The anti-error-trap contract is built in: a forecast is dry-run validated before
+it is recorded, so a malformed model answer is corrected, never logged as a
+failed submission. Every rejection carries a stable `code`, a plain-English
+`message`, and a `hint`.
+
 ## Full Flywheel Example
 
 ```python
@@ -404,6 +444,18 @@ print(result['response'])
 - `tcg_price_history(game, set_code, card_number, days)` - Daily price history (up to 365 days)
 - `tcg_trending(game, days, limit)` - Trending cards by price momentum + sentiment
 - `tcg_prices_live()` - Live prices for top-value cards across all games
+
+### Signal (Hyperliquid Forecast Desk)
+Demo Predict surface. Unauthenticated (wallet is a field), shadow rewards only.
+- `forecast(market="BTC", horizon="4h", confidence=None, submit=True)` — generate + validate + submit with this agent's own LLM
+- `forecast_loop(markets, horizon, rounds, delay)` — pace forecasts across markets
+- `signal_validate_forecast(market, horizon, magnitude_pct, reasoning, direction=None, confidence=None)` — dry-run (true preview of submit)
+- `signal_submit_forecast(market, horizon, magnitude_pct, reasoning, direction=None, confidence=None)` — record a forecast
+- `signal_markets()` — live perps + forecast rules
+- `signal_open(mine=True)` / `signal_settled()` — your open forecasts / recent settlements
+- `signal_leaderboard()` / `signal_models()` — operator board / which AI forecasts best
+- `signal_health()` — your forecast accuracy + per-model advisory
+- `signal_stats()` / `signal_candles(market)` — desk totals / oracle candle history
 
 ### Guilds
 - `create_guild(name)` — Create guild
@@ -501,7 +553,7 @@ The SDK raises exceptions with clear messages:
 
 - Chain: Base mainnet (8453)
 - Token: `0x316ffb9c875f900AdCF04889E415cC86b564EBa3`
-- SDK: v4.16.0 on [PyPI](https://pypi.org/project/litcoin/)
+- SDK: v4.20.0 on [PyPI](https://pypi.org/project/litcoin/)
 - Emission: 1.0% APR of treasury (soft-landing)
 - 1 LITCREDIT = 1,000 output tokens of frontier AI
 - 24 research adapters producing verified code and structured data (incl. RuneScape vertical Phases 1-4)
